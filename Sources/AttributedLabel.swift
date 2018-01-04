@@ -85,14 +85,15 @@ public class AttributedLabel: UIView {
     }
     
     private func commonInit() {
+        label.translatesAutoresizingMaskIntoConstraints = false
         addSubview(label)
+        self.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|[label]|", options: [], metrics: nil, views: ["label": label]))
+        self.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|[label]|", options: [], metrics: nil, views: ["label": label]))
     }
     
     //MARK: - overrides
     public override func layoutSubviews() {
         super.layoutSubviews()
-        
-        label.frame = bounds
         
         detectionAreaButtons.forEach {
             $0.removeFromSuperview()
