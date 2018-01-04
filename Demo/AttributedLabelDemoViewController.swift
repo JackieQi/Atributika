@@ -33,13 +33,13 @@ class AttributedLabelDemoViewController: UIViewController {
         let i = Style("i").font(.italicSystemFont(ofSize: 16))
         
         tweetLabel.numberOfLines = 0
-        tweetLabel.attributedText = "@potus If only <i>Bradley's</i> arm was longer. Best photo ever. #oscars <a href=\"https://pic.twitter.com/C9U5NOtGap\">pic.twitter.com/C9U5NOtGap</a>"
+        tweetLabel.br_attributedText = "@potus If only <i>Bradley's</i> arm was longer. Best photo ever. #oscars <a href=\"https://pic.twitter.com/C9U5NOtGap\">pic.twitter.com/C9U5NOtGap</a>"
             .style(tags: link, i)
             .styleAll(all)
             .styleHashtags(link)
             .styleMentions(link)
         
-        tweetLabel.onClick = { label, detection in
+        tweetLabel.br_onClick = { label, detection in
             switch detection.type {
             case .hashtag(let tag):
                 if let url = URL(string: "https://twitter.com/hashtag/\(tag)") {
@@ -81,9 +81,9 @@ class AttributedLabelDemoViewController: UIViewController {
             .styleAll(all)
         
         tosLabel.textAlignment = .center
-        tosLabel.attributedText = text
+        tosLabel.br_attributedText = text
         
-        tosLabel.onClick = { label, detection in
+        tosLabel.br_onClick = { label, detection in
             switch detection.type {
             case .tag(let tag):
                 switch tag.name {
@@ -106,6 +106,6 @@ class AttributedLabelDemoViewController: UIViewController {
         super.viewDidLayoutSubviews()
         
         tweetLabel.frame = view.bounds.insetBy(dx: 20, dy: 64)
-        tosLabel.frame = CGRect(x: 10, y: view.bounds.height - 100, width: view.bounds.width - 20, height: 40)
+        tosLabel.frame = CGRect(x: 10, y: view.bounds.height - 200, width: view.bounds.width - 20, height: 40)
     }
 }
