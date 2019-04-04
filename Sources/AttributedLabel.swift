@@ -9,7 +9,7 @@ import Foundation
 import UIKit
 
 public class AttributedLabel: UILabel {
-        
+
     //MARK: - private properties
     private var interactiveAreas = [(CGRect, Detection)]()
     
@@ -24,7 +24,7 @@ public class AttributedLabel: UILabel {
             return state.isEnabled
         }
     }
-    
+  
     public var br_attributedText: AttributedText? {
         set {
             state.attributedTextAndString = newValue.map { ($0, $0.attributedString) }
@@ -34,7 +34,7 @@ public class AttributedLabel: UILabel {
             return state.attributedTextAndString?.0
         }
     }
-    
+  
     //MARK: - init
     public override init(frame: CGRect) {
         super.init(frame: frame)
@@ -53,9 +53,9 @@ public class AttributedLabel: UILabel {
     }
     
     //MARK: - overrides
-    public override func layoutSubviews() {
+    open override func layoutSubviews() {
         super.layoutSubviews()
-        
+      
         interactiveAreas.removeAll()
         
         if let (text, string) = state.attributedTextAndString {
@@ -79,7 +79,7 @@ public class AttributedLabel: UILabel {
             let usedRect = layoutManager.usedRect(for: textContainer)
             let dy = max(0, (bounds.height - usedRect.height)/2)
             highlightableDetections.forEach { detection in
-                let nsrange = NSRange(detection.range, in: inheritedString.string)
+                let nsrange = NSRange(detection.range, in: text.string)
                 layoutManager.enumerateEnclosingRects(forGlyphRange: nsrange, withinSelectedGlyphRange: NSRange(location: NSNotFound, length: 0), in: textContainer, using: { (rect, stop) in
                     var finalRect = rect
                     finalRect.origin.y += dy
@@ -88,7 +88,7 @@ public class AttributedLabel: UILabel {
             }
         }
     }
-    
+  
     @objc private func handleDetectionAreaTap(_ sender: UITapGestureRecognizer) {
         for area in interactiveAreas {
             let isInteractiveArea = area.0.contains(sender.location(in: self))
@@ -135,12 +135,12 @@ public class AttributedLabel: UILabel {
 
 extension NSAttributedString {
     
-    func withInherited(font: UIFont, textAlignment: NSTextAlignment) -> NSAttributedString {
+    fileprivate func withInherited(font: UIFont, textAlignment: NSTextAlignment) -> NSAttributedString {
         
         let paragraphStyle = NSMutableParagraphStyle()
         paragraphStyle.alignment = textAlignment
         
-        let inheritedAttributes = [NSAttributedStringKey.font: font as Any, NSAttributedStringKey.paragraphStyle: paragraphStyle as Any]
+        let inheritedAttributes = [AttributedStringKey.font: font as Any, AttributedStringKey.paragraphStyle: paragraphStyle as Any]
         let result = NSMutableAttributedString(string: string, attributes: inheritedAttributes)
         
         result.beginEditing()
